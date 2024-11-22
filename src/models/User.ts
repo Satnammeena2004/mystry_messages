@@ -11,7 +11,7 @@ export interface UserType extends Document {
   password: string;
   verifyCode: string;
   verifyCodeExpiry: Date;
-  isVarified: boolean;
+  isVerified: boolean;
   isAcceptsMessage: boolean;
   messages: MessageType[];
 }
@@ -49,7 +49,7 @@ const UserSchema: Schema<UserType> = new Schema({
     type: Date,
     required: [true, "varifyExpiry code is required"],
   },
-  isVarified: { type: Boolean, default: false },
+  isVerified: { type: Boolean, default: false },
   isAcceptsMessage: { type: Boolean, default: true },
   messages: [MessageSchema],
 });
