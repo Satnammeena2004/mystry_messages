@@ -3,25 +3,30 @@ import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
 import mongoose from "mongoose";
 
-export const GET = auth(async function GET(request) {
-    const session = request.auth;
+export const GET = auth(async (request) => {
+  // const session = await auth(req, res);
 
-    if (!session || !session.user) {
-      return Response.json(
-        {
-          success: false,
-          messages: "You are Not aunthenticated",
-        },
-        {
-          status: 404,
-        }
-      );
-    }
+  // const session = request.auth;
+
+  // if (!session || !session.user) {
+  //   return Response.json(
+  //     {
+  //       success: false,
+  //       messages: "You are Not authenticated",
+  //     },
+  //     {
+  //       status: 400,
+  //     }
+  //   );
+  // }
 
   try {
+    const { searchParams } = new URL(request.nextUrl);
+
+    const _id = searchParams.get("userId");
+    console.log("id==================================", _id);
     await dbConnect();
-    // const userId = new mongoose.Types.ObjectId(session.user._id);
-    const userId = new mongoose.Types.ObjectId("673ba0bd66c403311bfcb846");
+    const userId = new mongoose.Types.ObjectId(_id);
 
     const messages = await UserModel.aggregate([
       { $match: { _id: userId } },
