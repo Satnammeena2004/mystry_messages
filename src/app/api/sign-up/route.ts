@@ -6,11 +6,12 @@ import bcrypt from "bcryptjs";
 export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
-
+    console.log("username", username, password, email);
     await dbConnect();
     const userExistsVerifiedByName = await UserModel.findOne({
       username,
       isVerified: true,
+
     });
 
     if (userExistsVerifiedByName) {
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
       await newUser.save();
     }
     const emailRes = await sendVarificationEmail(username, verifyCode, email);
+
     if (emailRes.success) {
       return Response.json(
         {

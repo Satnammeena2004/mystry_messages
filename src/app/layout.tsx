@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar";
+import { SessionProvider } from "next-auth/react";
+import gridImage from "@/app/grid-bg2.png";
+import Image from "next/image";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +31,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} bg-slate-50 ${geistMono.variable} antialiased font-Inter  `}
       >
-        {children}
+        <SessionProvider>
+          <Navbar />
+          <div className="relative min-h-screen">
+            <Image
+              className="absolute right-8 -top-32 -z-10  "
+              src={gridImage}
+              alt="grid img"
+            />
+            {children}
+          </div>
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   );

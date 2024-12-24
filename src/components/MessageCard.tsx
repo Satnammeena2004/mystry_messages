@@ -39,9 +39,9 @@ function MessageCard({ message, msg_id }: MessageCardProps) {
 
   return (
     <div>
-      <Card className="w-[350px] p-2">
+      <Card className="w-[300px] p-2">
         <CardHeader>
-          <CardTitle>{message}</CardTitle>
+          <CardTitle className="uppercase">{message}</CardTitle>
 
           <CardDescription>
             Deploy your new project in one-click.
@@ -50,7 +50,7 @@ function MessageCard({ message, msg_id }: MessageCardProps) {
         <CardContent></CardContent>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline">Show Dialog</Button>
+            <Button className="bg-red-600" variant="outline">Delete</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -62,7 +62,7 @@ function MessageCard({ message, msg_id }: MessageCardProps) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleSend}>
+              <AlertDialogAction className="bg-red-600" onClick={handleSend}>
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>

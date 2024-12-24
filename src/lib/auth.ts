@@ -17,6 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       authorize: async (credentials: any) => {
         try {
+          console.log("credentoalt", credentials);
           await dbConnect();
           const user = await UserModel.findOne({
             $or: [
@@ -24,7 +25,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               { username: credentials.username },
             ],
           });
-      console.log("---------------------------------------------------------",user)
+          console.log(
+            "---------------------------------------------------------",
+            user
+          );
           if (!user) {
             return null;
             // throw new Error("user not found with this email or username");
@@ -33,10 +37,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
             throw new Error("You are not verified so do it first");
           }
+          console.log("userpassword", credentials);
           const isCorrectPassword = await bcrypt.compare(
             credentials.password,
             user.password
           );
+          console.log("isCorrectPassword", isCorrectPassword);
 
           if (!isCorrectPassword) {
             return null;
@@ -47,7 +53,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return user;
         } catch (err: any) {
-          throw new Error("Error in auth", err.message);
+          console.log("Error in catch sign-p", err);
+          return null;
         }
       },
     }),
@@ -59,7 +66,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async jwt({ token, user }) {
-    
       if (user) {
         token._id = user._id;
         token.isAcceptsMessage = user.isAcceptsMessage;
@@ -70,20 +76,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-
       session.user._id = token._id;
       session.user.isAcceptsMessage = token.isAcceptsMessage;
       session.user.isVerified = token.isVerified;
       session.user.username = token.username;
-      console.log("session", session);
+
       return session;
     },
     async redirect({ url, baseUrl }) {
-
       return "/dashboard";
     },
   },
   session: {
     strategy: "jwt",
+  },
+  pages: {
+    signIn: "/sign-in",
   },
 });

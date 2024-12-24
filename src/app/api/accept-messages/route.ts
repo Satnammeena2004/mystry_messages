@@ -9,7 +9,7 @@ export const POST = auth(async function POST(request) {
     return Response.json(
       {
         success: false,
-        messages: "Ypu are Not aunthenticated",
+        messages: "Ypu are Not authenticated",
       },
       {
         status: 404,
@@ -19,12 +19,12 @@ export const POST = auth(async function POST(request) {
   try {
     await dbConnect();
     const userId = session.user._id;
-    const { acceptMeesages } = await request.json();
+    const { acceptsMessage } = await request.json();
 
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
       {
-        isAcceptsMessage: acceptMeesages,
+        isAcceptsMessage: acceptsMessage,
       },
       { new: true }
     );
@@ -43,7 +43,7 @@ export const POST = auth(async function POST(request) {
     return Response.json(
       {
         success: true,
-        messages: "messages status accept succesfully",
+        messages: "messages status accept successfully",
       },
       {
         status: 200,
@@ -65,12 +65,13 @@ export const POST = auth(async function POST(request) {
 
 export const GET = auth(async function GET(request) {
   const session = request.auth;
+ 
 
   if (!session || !session.user) {
     return Response.json(
       {
         success: false,
-        messages: "Ypu are Not aunthenticated",
+        messages: "Ypu are Not authenticated",
       },
       {
         status: 404,
@@ -98,7 +99,7 @@ export const GET = auth(async function GET(request) {
     return Response.json(
       {
         success: true,
-        isAccetingMessages: foundUser.isAcceptsMessage,
+        isAcceptingMessages: foundUser.isAcceptsMessage,
       },
       {
         status: 200,

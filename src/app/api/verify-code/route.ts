@@ -9,6 +9,17 @@ export async function POST(request: NextRequest) {
 
     const user = await UserModel.findOne({ username });
 
+    if (user && user?.isVerified) {
+      return Response.json(
+        {
+          success: true,
+          message: "user already verified",
+        },
+        {
+          status: 200,
+        }
+      );
+    }
     if (!user) {
       return Response.json(
         {
@@ -30,7 +41,7 @@ export async function POST(request: NextRequest) {
       return Response.json(
         {
           success: true,
-          message: "account is successfully vaerified",
+          message: "account is successfully verified",
         },
         {
           status: 200,

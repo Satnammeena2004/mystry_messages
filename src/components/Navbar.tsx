@@ -11,7 +11,7 @@ function Navbar() {
   const { data: session, status } = useSession();
   const user: UserProfileType = session?.user;
   return (
-    <div className="flex justify-between items-center px-4 py-2 w-full border ">
+    <div className="flex justify-between bg-white items-center px-4 py-2 w-full border font-Inter ">
       <div className="flex items-center px-2">
         <LucideMessageCircleQuestion />
         <h1 className="uppercase text-semibold">Mystery Messages</h1>

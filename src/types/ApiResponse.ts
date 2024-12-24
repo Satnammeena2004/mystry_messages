@@ -1,9 +1,10 @@
-import { Message } from "postcss";
+import { MessageType } from "@/models/User";
+
 
 
 export interface ApiResponseType {
     success:boolean,
     message:string,
     isAcceptMessage?:boolean,
-    messages?:Array<Message>
+    messages?:MessageType[]
 }
