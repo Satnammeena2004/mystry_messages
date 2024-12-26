@@ -90,7 +90,7 @@ function IsAcceptingMessages() {
             name="acceptsMessage"
             onCheckedChange={handleChange}
           />
-          <Label htmlFor="airplane-mode">Accept Message</Label>
+          <Label htmlFor="airplane-mode">Accept Message : {acceptsMessageValue?"on":"off"}</Label>
         </form>
       </div>
     </div>

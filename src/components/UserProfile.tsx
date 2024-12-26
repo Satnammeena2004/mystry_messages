@@ -1,4 +1,3 @@
-import { UserType } from "@/models/User";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,7 @@ export default function UserProfile({
   console.log(username ?? name);
   return (
     <div className="flex items-center gap-x-2">
-      <div className="font-medium">Welcome, {username}</div>
+      <div className="font-medium">Welcome, {username ?? name}</div>
       <div>
 
       <DropdownMenu>

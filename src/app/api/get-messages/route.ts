@@ -34,15 +34,15 @@ export const GET = auth(async (request) => {
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-    if (!messages || messages.length === 0) {
-      return Response.json(
-        {
-          success: false,
-          messages: "User not found",
-        },
-        { status: 404 }
-      );
-    }
+    // if (!messages || messages.length === 0) {
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       messages: "User not found",
+    //     },
+    //     { status: 404 }
+    //   );
+    // }
 
     return Response.json(
       {

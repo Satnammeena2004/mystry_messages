@@ -37,7 +37,7 @@ export default function RootLayout({
           <Navbar />
           <div className="relative min-h-screen">
             <Image
-              className="absolute right-8 -top-32 -z-10  "
+              className="absolute inset-0 w-full h-full -z-10  "
               src={gridImage}
               alt="grid img"
             />

@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   InputOTP,
   InputOTPGroup,
@@ -50,9 +49,9 @@ function Verify() {
         description: "Code Verification Successfully",
         variant: "success",
       });
-      // setTimeout(() => {
-      //   router.replace("/api/auth/signin");
-      // }, 300);
+      setTimeout(() => {
+        router.replace("/api/auth/signin");
+      }, 300);
     } catch (error) {
       console.log("APE Error in code verification");
       const apiError = error as AxiosError<ApiResponseType>;
