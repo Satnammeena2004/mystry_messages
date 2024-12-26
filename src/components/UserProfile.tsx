@@ -30,7 +30,10 @@ export default function UserProfile({
 }: UserProfileType) {
   console.log(username ?? name);
   return (
-    <div>
+    <div className="flex items-center gap-x-2">
+      <div className="font-medium">Welcome, {username}</div>
+      <div>
+
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar>
@@ -61,6 +64,8 @@ export default function UserProfile({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      </div>
+
     </div>
   );
 }

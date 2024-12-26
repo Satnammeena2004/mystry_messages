@@ -21,20 +21,14 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { deleteMessageById } from "@/app/actions";
-import { useSession } from "next-auth/react";
 
 type MessageCardProps = {
   message: string;
   msg_id: string;
+  userId: string;
 };
 
-function MessageCard({ message, msg_id }: MessageCardProps) {
-  const session = useSession();
-
-  if (!session || !session.data?.user) {
-    return <p>unauthenticated</p>;
-  }
-  const userId = session.data.user._id;
+function MessageCard({ message, msg_id, userId }: MessageCardProps) {
   const handleSend = deleteMessageById.bind(null, msg_id, userId);
 
   return (
@@ -50,7 +44,9 @@ function MessageCard({ message, msg_id }: MessageCardProps) {
         <CardContent></CardContent>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button className="bg-red-600" variant="outline">Delete</Button>
+            <Button className="bg-red-600" variant="outline">
+              Delete
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
