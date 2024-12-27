@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { z } from "zod";
 
-import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -44,7 +43,7 @@ function Page() {
         username: data.indentifier,
         password: data.password,
       });
-    
+
       // if (result?.error === undefined) {
       //   toast({
       //     title: "Login succesfull",
@@ -155,7 +154,7 @@ function Page() {
         <div className="flex my-4">
           <Button
             onClick={() => signIn("google", { redirectTo: "/dashboard" })}
-            className="bg-green-300 m-auto w-2/3 text-black hover:bg-green-400"
+            className="bg-green-300 m-auto md:w-2/3 w-fit  text-black hover:bg-green-400"
           >
             <Mail /> Login with Google
           </Button>

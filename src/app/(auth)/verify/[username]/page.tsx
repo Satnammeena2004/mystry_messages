@@ -20,6 +20,7 @@ import { verifySchema } from "@/schemas/verifyShema";
 import { ApiResponseType } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { useSession } from "next-auth/react";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -29,13 +30,14 @@ import * as z from "zod";
 
 function Verify() {
   const router = useRouter();
+  const session  = useSession();
   const { username } = useParams<{ username: string }>();
   const [disabled, setDisabled] = useState(false);
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
     disabled,
   });
-
+console.log("sesionnnnnnnnnnnnnnnnnnnnn",session)
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
       console.log(data);
@@ -66,6 +68,10 @@ function Verify() {
       setDisabled(false);
     }
   };
+  if(session.status==="authenticated"){
+    router.push("/sign-in")
+    return 
+  }
   return (
     <div className="bg-slate-300 min-h-screen flex justify-center items-center">
       <div className="max-w-[25rem] flex justify-center items-center w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-8">

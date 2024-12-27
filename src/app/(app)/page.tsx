@@ -56,18 +56,19 @@ export default function Home() {
       style={{}}
       className="relative font-[family-name:var(--font-geist-sans)] flex justify-center items-center  h-full bg-grid-pattern"
     >
-      <div className="mx-auto w-2/4">
-        <h1 className="text-[3rem] font-bold uppercase mt-10 origin-center ">
+ 
+      <div className="mx-auto h-full w-80 sm:w-2/4 ">
+        <h1 className="h1 px-4 lg:px-12 w-fit mx-auto font-bold uppercase mt-10 origin-center ">
           Send{" "}
           <span className="text-black shadow-md  bg-white p-2 skew-y-6 ">
             anonymous
           </span>{" "}
           messages to <span className="text-cyan-50 bg-black p-2 ">ANYONE</span>
         </h1>
-        <div className="p-2  border rounded-full h-10 text-center mt-6 w-[33rem] overflow-hidden">
+        <div className="p-1  border rounded-full lg:w-3/4 mx-auto  text-center mt-8 lg:mt-12 w-full overflow-hidden">
           <p className="">{thumbnailTexts[index]}</p>
         </div>
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-8 lg:mt-12">
           <Button
             onClick={() => {
               router.push("/dashboard");
@@ -77,8 +78,8 @@ export default function Home() {
           </Button>
         </div>
       </div>
-      <MessageBox className="left-10 top-30" />
-      <MessageBox className="right-40 top-60" />
+      <MessageBox className="left-10 top-30 hidden lg:block" />
+      <MessageBox className="right-40 top-60 hidden lg:block" />
     </div>
   );
 }

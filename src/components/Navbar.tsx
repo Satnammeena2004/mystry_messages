@@ -13,8 +13,8 @@ function Navbar() {
   return (
     <div className="flex justify-between bg-white items-center px-4 py-2 w-full border font-Inter ">
       <div className="flex items-center px-2">
-        <LucideMessageCircleQuestion />
-        <h1 className="uppercase text-semibold">Mystery Messages</h1>
+        <LucideMessageCircleQuestion className="w-8 h-8 md:w-6 md:h-6"/>
+        <h1 className="uppercase text-semibold hidden sm:block">Mystery Messages</h1>
       </div>
       {status === "authenticated" ? (
         <div className="flex gap-x-3">

@@ -23,7 +23,7 @@ function Page() {
 
   return (
     <div>
-      <div className="w-2/4 mx-auto py-2">
+      <div className="sm:w-3/4 max-w-2xl w-full mx-auto md:pt-12 lg:pt-4 py-8 px-8">
         <h1 className="text-3xl font-medium text-center mb-4">
           Public Profile Link
         </h1>

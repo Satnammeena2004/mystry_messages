@@ -56,7 +56,7 @@ function Page() {
       setFormStatus("submited");
       setTimeout(() => {
         router.replace("/verify/" + username);
-      }, 500);
+      }, 200);
     } catch (error) {
       const apiError = error as AxiosError<ApiResponseType>;
       console.log(apiError);

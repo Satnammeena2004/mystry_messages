@@ -76,7 +76,7 @@ function IsAcceptingMessages() {
     });
   }, [initialCheckAcceptsMessage]);
   return (
-    <div className="my-8 px-8">
+    <div className="my-8 md:px-8 px-4">
       <div className="flex items-center space-x-2">
         <form
           className="flex items-center gap-1"
