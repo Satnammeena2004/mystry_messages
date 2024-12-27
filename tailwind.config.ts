@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate"
+import plugin from "tailwindcss/plugin";
 export default {
     darkMode: ["class"],
     content: [
@@ -67,5 +68,13 @@ export default {
   		}
   	}
   },
-  plugins: [animate],
+  plugins: [animate,plugin(function({addBase,addComponents}){
+	addBase({})
+	addComponents({
+		".h1": {
+			"@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[2.25rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]":
+			  {},
+		  },
+	})
+  })],
 } satisfies Config;
