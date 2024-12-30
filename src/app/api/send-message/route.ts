@@ -1,10 +1,29 @@
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
+import { messageSchema } from "@/schemas/messageSchema";
+import { UserNameSchema_ZOD } from "@/schemas/signupSchema";
 export async function POST(request: Request) {
   try {
     await dbConnect();
     const { username, content } = await request.json();
-
+    const zodValidation = await messageSchema
+      .extend({ username: UserNameSchema_ZOD })
+      .safeParse({
+        username,
+        content,
+      });
+    console.log("zodValidatrion", zodValidation.error?.errors);
+    if (!zodValidation.success) {
+      return Response.json(
+        {
+          success: false,
+          message: "invalid data",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
     const user = await UserModel.findOne({ username });
 
     if (!user) {

@@ -2,24 +2,26 @@ import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
 
-export const DELETE = auth(async function DELETE(request, { params }) {
+export const POST = auth(async function POST(request, { params }) {
+  const authss = auth(request);
+  console.log(authss);
   try {
     const { id: messageId } = await params;
     const { searchParams } = new URL(request.nextUrl);
 
     const _id = searchParams.get("userId");
 
-    // if (!request.auth || !user) {
-    //   return Response.json(
-    //     {
-    //       success: false,
-    //       message: "You are not authorized",
-    //     },
-    //     {
-    //       status: 400,
-    //     }
-    //   );
-    // }
+    if (!request.auth || !request.auth.user) {
+      return Response.json(
+        {
+          success: false,
+          message: "You are not authorized",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
     await dbConnect();
     await UserModel.updateOne(
       { _id },

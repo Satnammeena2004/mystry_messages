@@ -40,7 +40,7 @@ function Page() {
         variant: "success",
         description: res.data.message,
       });
-      setTimeout(() => router.push("/verify/" + username), 200);
+router.replace("/verify/" + username)
     } catch (err) {
       console.log(err);
       if (err instanceof AxiosError) {

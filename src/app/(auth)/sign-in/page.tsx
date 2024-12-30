@@ -22,9 +22,14 @@ import Link from "next/link";
 import { signInSchema } from "@/schemas/signinSchema";
 import { signIn } from "next-auth/react";
 import { Loader2, Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSession } from "@/helpers/getSession";
+import { useRouter } from "next/navigation";
+import PasswordToggle from "@/components/PasswordToggle";
 
 function Page() {
+  const router = useRouter();
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -34,6 +39,16 @@ function Page() {
     },
     disabled,
   });
+console.log(form.formState.isLoading)
+  useEffect(() => {
+    async function getS() {
+      const session = await getSession();
+      if (session !== null) {
+        router.push("/");
+      }
+    }
+    getS();
+  }, [router]);
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     try {
@@ -120,25 +135,34 @@ function Page() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="password" {...field} />
+                    <Input
+                      type={`${isEyeOpen ? "text" : "password"}`}
+                      placeholder="password"
+                      {...field}
+                    />
                   </FormControl>
-
+                  <PasswordToggle
+                    isEyeOpen={isEyeOpen}
+                    setIsEyeOpen={setIsEyeOpen}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button disabled={disabled} className="mx-auto my-4" type="submit">
-              {!disabled ? (
+            <Button disabled={disabled} className="flex my-4 items-center" type="submit">
+              {!disabled? (
                 "Sign in"
               ) : (
+                <>
                 <span>
-                  {" "}
-                  <Loader2 className="animate-spin" /> Signing
+                  <Loader2 className="animate-spin" /> 
                 </span>
+                <span>Signing</span>
+                </>
               )}
             </Button>
           </form>

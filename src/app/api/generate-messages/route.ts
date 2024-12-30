@@ -5,22 +5,20 @@ import { streamObject } from "ai";
 
 export const maxDuration = 30;
 
-
-
 export const POST = auth(async function POST(request) {
   const session = request.auth;
 
-  // if (!session || !session.user) {
-  //   return Response.json(
-  //     {
-  //       success: false,
-  //       messages: "You are Not authenticated",
-  //     },
-  //     {
-  //       status: 404,
-  //     }
-  //   );
-  // }
+  if (!session || !session.user) {
+    return Response.json(
+      {
+        success: false,
+        messages: "You are Not authenticated",
+      },
+      {
+        status: 404,
+      }
+    );
+  }
   try {
     const obj = streamObject({
       model: google("gemini-1.5-flash"),

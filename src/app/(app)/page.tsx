@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 function MessageBox({ className }: { className: string }) {
+  
   return (
     <div
       className={`${className} absolute  p-2 box-border z-10 text-white text-sm `}
@@ -39,6 +40,7 @@ const thumbnailTexts = [
 export default function Home() {
   const [index, setIndex] = useState(0);
   const router = useRouter();
+
   useEffect(() => {
     const timer = setInterval(() => {
       if (index >= thumbnailTexts.length - 1) {
@@ -56,7 +58,6 @@ export default function Home() {
       style={{}}
       className="relative font-[family-name:var(--font-geist-sans)] flex justify-center items-center  h-full bg-grid-pattern"
     >
- 
       <div className="mx-auto h-full w-80 sm:w-2/4 ">
         <h1 className="h1 px-4 lg:px-12 w-fit mx-auto font-bold uppercase mt-10 origin-center ">
           Send{" "}
@@ -71,7 +72,7 @@ export default function Home() {
         <div className="flex justify-center mt-8 lg:mt-12">
           <Button
             onClick={() => {
-              router.push("/dashboard");
+              router.replace("/dashboard");
             }}
           >
             Go to Dashboard
