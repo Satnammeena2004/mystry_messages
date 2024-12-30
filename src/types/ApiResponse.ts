@@ -6,5 +6,6 @@ export interface ApiResponseType {
     success:boolean,
     message:string,
     isAcceptMessage?:boolean,
-    messages?:MessageType[]
+    messages?:MessageType[],
+    data?:string
 }
