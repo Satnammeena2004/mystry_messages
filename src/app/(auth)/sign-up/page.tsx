@@ -21,12 +21,19 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import Link from "next/link";
+import { getSession } from "@/helpers/getSession";
+import { signIn, useSession } from "next-auth/react";
+import PasswordToggle from "@/components/PasswordToggle";
 type FormStatus = "idle" | "pending" | "submited";
 
 function Page() {
   const router = useRouter();
+  const session = useSession();
+  console.log("session",session)
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
+
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState<string | string[]>("");
   const [checkingUsername, setCheckingUsername] = useState(false);
@@ -40,6 +47,15 @@ function Page() {
       password: "",
     },
   });
+   useEffect(() => {
+      async function getS() {
+        const session = await getSession();
+        if (session !==null) {
+          router.push("/");
+        }
+      }
+      getS();
+    }, [router]);
 
   const onSubmit = async (data: z.infer<typeof SignUpSchema_ZOD>) => {
     try {
@@ -96,8 +112,8 @@ function Page() {
   }, [username]);
 
   return (
-    <div className="bg-slate-300 min-h-screen flex justify-center items-center">
-      <div className="max-w-[25rem] w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-8">
+    <div className="bg-slate-300 min-h-screen flex justify-center ">
+      <div className="max-w-[25rem] w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-4 mt-4 h-fit">
         <div className="mb-4">
           <h1 className="text-3xl font-semibold text-center">
             Join Mystry Message
@@ -158,14 +174,21 @@ function Page() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="password" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
+                <FormItem className="relative">
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type={`${isEyeOpen ? "text" : "password"}`}
+                    placeholder="password"
+                    {...field}
+                  />
+                </FormControl>
+                <PasswordToggle
+                  isEyeOpen={isEyeOpen}
+                  setIsEyeOpen={setIsEyeOpen}
+                />
+                <FormMessage />
+              </FormItem>
               )}
             />
 
@@ -192,6 +215,14 @@ function Page() {
               Sign in
             </Link>
           </p>
+        </div>
+        <div className="flex my-4">
+          <Button
+            onClick={() => signIn("google", { redirectTo: "/dashboard" })}
+            className="bg-green-300 m-auto md:w-2/3 w-fit  text-black hover:bg-green-400"
+          >
+            <Mail /> Login with Google
+          </Button>
         </div>
       </div>
     </div>

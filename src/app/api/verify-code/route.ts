@@ -1,14 +1,26 @@
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
+import { verifySchema } from "@/schemas/verifyShema";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   dbConnect();
+
   try {
     const { username, code } = await request.json();
-
+    const zodValidation = await verifySchema.safeParse({ code });
+    if (!zodValidation.success) {
+      return Response.json(
+        {
+          success: false,
+          message: "invalid data",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
     const user = await UserModel.findOne({ username });
-
     if (user && user?.isVerified) {
       return Response.json(
         {
@@ -31,13 +43,13 @@ export async function POST(request: NextRequest) {
         }
       );
     }
-
     const isCodeValid = code == user.verifyCode;
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
     if (isCodeValid && isCodeNotExpired) {
       user.isVerified = true;
       await user.save();
+
       return Response.json(
         {
           success: true,

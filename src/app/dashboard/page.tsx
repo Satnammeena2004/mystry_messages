@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import MessageCard from "@/components/MessageCard";
-import { auth } from "@/lib/auth";
+import { auth} from "@/lib/auth";
 import { BASE_URL } from "../../helpers/constant";
 import { redirect } from "next/navigation";
 import IsAcceptingMessages from "@/components/IsAcceptingMessages";
@@ -13,7 +13,13 @@ import { MessageType } from "@/models/User";
 export default async function Page() {
   const session = await auth();
   if (!session || !session.user) {
-    return redirect("/sign-in");
+    return redirect("/unauthenticated");
+  }
+   
+
+
+  if (!session.user.isVerified) {
+    return redirect("/verification");
   }
   const getMessages = async (
     userId: string | undefined
@@ -31,15 +37,14 @@ export default async function Page() {
   const messages = await getMessages.bind(null, session?.user?._id)();
 
   return (
-    <div className="px-8">
-      <h1 className="text-4xl p-4">User Dashboard</h1>
+    <div className="px-4 sm:px-8  ">
+      <h1 className="h2 p-4">User Dashboard</h1>
       <ClipboardLink />
       <IsAcceptingMessages />
       <RefreshMessageFeed />
 
       <div className="flex p-4  gap-3 flex-wrap">
         {messages?.map(({ content, _id }, i) => {
-          //@ts-expect-error
           return (
             <MessageCard
               key={i}

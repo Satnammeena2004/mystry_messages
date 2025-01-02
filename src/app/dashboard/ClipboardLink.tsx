@@ -6,6 +6,11 @@ import { CornerRightDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useCopyToClipboard } from "usehooks-ts";
 
+export const reloadSession = () => {
+  const event = new Event("visibilitychange");
+  document.dispatchEvent(event);
+};
+
 function ClipboardLink() {
   const [copiedText, copy] = useCopyToClipboard();
   const handleCopy = (text: string) => {
@@ -17,8 +22,24 @@ function ClipboardLink() {
         console.log("Error in copied text", err);
       });
   };
-  const username = useSession().data?.user.username;
+  const session = useSession();
 
+  const username = session?.data?.user.username;
+  // function handleSession(){
+  //   session.update({
+
+  //     ...session,
+  //     data: {
+  //         ...session?.data,
+  //         user:{
+  //             ...session?.data?.user,
+  //             username:"sheheheheheh"
+  //         }
+  //     }
+  // })
+
+  // reloadSession();
+  // }
   return (
     <div className="">
       <div className="flex items-center">
@@ -30,9 +51,13 @@ function ClipboardLink() {
           type="text"
           className="p-2 bg-transparent rounded-md md:w-96 w-full text-sm md:text-base"
           disabled
-          value={"https:localhost:3000/u/" + username}
+          value={"https:localhost:3000/u/" + (username ? username : "")}
         />
-        <Button onClick={() => handleCopy(BASE_URL + "/u/" + username)}>
+        <Button
+          onClick={() => {
+            handleCopy(BASE_URL + "/u/" + username);
+          }}
+        >
           Copy
         </Button>
       </div>

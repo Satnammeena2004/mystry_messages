@@ -72,7 +72,7 @@ console.log(form.formState.isLoading)
           description: "Your email/usernamae or passowrd is incorrect",
           variant: "destructive",
         });
-        const confgiErrors = [
+        const configErrors:{name:string,type:string,message:string}[] = [
           {
             name: "indentifier",
             type: "manual",
@@ -80,7 +80,7 @@ console.log(form.formState.isLoading)
           },
           { name: "password", type: "manual", message: "Incorrect password" },
         ];
-        confgiErrors.forEach(({ name, type, message }) => {
+        configErrors.forEach(({ name, type, message }) => {
           form.setError(name, {
             type: type,
             message: message,
@@ -102,7 +102,7 @@ console.log(form.formState.isLoading)
 
   return (
     <div className="bg-slate-300 min-h-screen flex justify-center ">
-      <div className="max-w-[25rem] w-4/5 h-5/6 mt-12 bg-slate-50 rounded-lg border shadow-md px-8 py-8">
+      <div className="max-w-[25rem] w-4/5 h-5/6 mt-4 bg-slate-50 rounded-lg border shadow-md px-8 py-8">
         <div className="mb-4">
           <h1 className="text-3xl font-semibold text-center">
             Join Mystry Message

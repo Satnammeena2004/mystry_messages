@@ -1,17 +1,34 @@
 import { sendVarificationEmail } from "@/helpers/varificationEmail";
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
+import { SignUpSchema_ZOD } from "@/schemas/signupSchema";
 import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
     console.log("username", username, password, email);
+    const zodValidation = await SignUpSchema_ZOD.safeParse({
+      username,
+      password,
+      email,
+    });
+    console.log("zodValidatrion", zodValidation);
+    if (!zodValidation.success) {
+      return Response.json(
+        {
+          success: false,
+          message: "invalid data",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
     await dbConnect();
     const userExistsVerifiedByName = await UserModel.findOne({
       username,
       isVerified: true,
-
     });
 
     if (userExistsVerifiedByName) {
@@ -34,7 +51,7 @@ export async function POST(request: Request) {
         return Response.json(
           {
             success: false,
-            message: "user is alre ady with this email",
+            message: "user is already with this email",
           },
           {
             status: 400,
@@ -45,7 +62,7 @@ export async function POST(request: Request) {
 
       existWithEmail.password = hashedPassword;
       existWithEmail.verifyCode = verifyCode;
-      existWithEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+      existWithEmail.verifyCodeExpiry = new Date(Date.now() + 1000 * 60 * 2);
       await existWithEmail.save();
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);

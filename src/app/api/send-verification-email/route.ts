@@ -13,9 +13,13 @@ export const GET = auth(async (request) => {
     );
   }
   const { username, email } = request.auth.user as User;
-  const verifyCodeExpiry = new Date(Date.now() + 360000);
+  const verifyCodeExpiry = new Date(Date.now() + (1000 * 60 * 2));
   const verifyCode = Math.floor(10000 + Math.random() * 90000).toString();
-  const emailSender = await sendVarificationEmail(username, verifyCode, email);
+  const emailSender = await sendVarificationEmail(
+    username as string,
+    verifyCode,
+    email as string
+  );
   if (!emailSender.success) {
     return NextResponse.json(
       { success: false, message: "failed to send email" },

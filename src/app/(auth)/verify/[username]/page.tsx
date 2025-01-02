@@ -24,56 +24,19 @@ import { useSession } from "next-auth/react";
 
 import { useParams, useRouter } from "next/navigation";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useCountdown } from "usehooks-ts";
 import * as z from "zod";
 function Verify() {
+  const [count] = useState(60);
   const router = useRouter();
   const session = useSession();
-  const [expired, setExpired] = useState<number>(120);
   const { username } = useParams<{ username: string }>();
   const [disabled, setDisabled] = useState(false);
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
     disabled,
   });
-  const s = useRef<number>(180);
-
-  const [count, { startCountdown, stopCountdown, resetCountdown }] =
-    useCountdown({
-      countStart: s.current,
-      intervalMs: 1000,
-      countStop: 0,
-    });
-  if (count <= 0) {
-    toast({
-      title: "Code expired",
-      description: "Please request a new code",
-      variant: "destructive",
-    });
-  }
-
-  useEffect(() => {
-    if (session.status === "loading") {
-      return;
-    }
-    const e = session.data?.user.verifyCodeExpiry as Date;
-    const seconds = Math.abs((new Date(e).getTime() - Date.now()) / 1000);
-    s.current = Math.abs(seconds);
-    if (s.current != seconds) {
-      startCountdown();
-    }
-
-    return () => {
-      stopCountdown();
-    };
-  }, [
-    startCountdown,
-    stopCountdown,
-    session.status,
-    session.data?.user.verifyCodeExpiry
-  ]);
 
   if (session.status === "loading") {
     return;
@@ -96,8 +59,6 @@ function Verify() {
         variant: "success",
       });
 
-      stopCountdown();
-
       session.update({
         ...session,
         data: {
@@ -116,7 +77,6 @@ function Verify() {
       console.log("APE Error in code verification");
       const apiError = error as AxiosError<ApiResponseType>;
       console.log(apiError);
-      // session.data?.user.isVerified = true;
       await session.update((prev) => ({
         ...prev,
         data: { ...prev.data, user: { ...prev.data?.user, isVerified: true } },
@@ -130,9 +90,7 @@ function Verify() {
       setDisabled(false);
     }
   };
-  if (session.status === "loading") {
-    return;
-  }
+
   if (session.status === "unauthenticated") {
     router.push("/unauthenticated");
     return;
@@ -174,8 +132,6 @@ function Verify() {
                   className="my-3 mx-auto"
                   onClick={async () => {
                     try {
-                      resetCountdown();
-                      startCountdown();
                       await axios.get("/api/send-verification-email");
                       toast({
                         title: "Code resent",

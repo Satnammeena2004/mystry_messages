@@ -1,9 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { Link } from "lucide-react";
 import { useEffect, useState } from "react";
 function MessageBox({ className }: { className: string }) {
-  
   return (
     <div
       className={`${className} absolute  p-2 box-border z-10 text-white text-sm `}
@@ -39,7 +38,6 @@ const thumbnailTexts = [
 
 export default function Home() {
   const [index, setIndex] = useState(0);
-  const router = useRouter();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -70,13 +68,9 @@ export default function Home() {
           <p className="">{thumbnailTexts[index]}</p>
         </div>
         <div className="flex justify-center mt-8 lg:mt-12">
-          <Button
-            onClick={() => {
-              router.replace("/dashboard");
-            }}
-          >
-            Go to Dashboard
-          </Button>
+          <Link href="/dashboard">
+            <Button>Go to Dashboard</Button>
+          </Link>
         </div>
       </div>
       <MessageBox className="left-10 top-30 hidden lg:block" />
