@@ -10,8 +10,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "./ui/label";
 import { BASE_URL } from "@/helpers/constant";
+import { useSession } from "next-auth/react";
 
 function IsAcceptingMessages() {
+  const session = useSession();
   const { register, watch, setValue, handleSubmit } = useForm({
     resolver: zodResolver(acceptsMessageSchema),
   });
@@ -36,14 +38,23 @@ function IsAcceptingMessages() {
     setValue("acceptsMessage", !acceptsMessageValue);
   }
   async function onSubmit(data: z.infer<typeof acceptsMessageSchema>) {
-    await axios
-      .post(BASE_URL + "/api/accept-messages", data)
-      .then(() => {
-        toast({
-          title: "successfully changed saved",
-          description: "Your accepting message changed",
-          variant: "success",
-        });
+    await axios.post(BASE_URL + "/api/accept-messages", data).then(() => {
+      toast({
+        title: "successfully changed saved",
+        description: "Your accepting message changed",
+        variant: "primary",
+      });
+    });
+    session
+      .update({
+        ...session,
+        data: {
+          ...session?.data,
+          user: {
+            ...session?.data?.user,
+            isAcceptsMessage: data.acceptsMessage,
+          },
+        },
       })
       .catch((err) => {
         console.log("Error in changing the accept message", err);
@@ -90,7 +101,9 @@ function IsAcceptingMessages() {
             name="acceptsMessage"
             onCheckedChange={handleChange}
           />
-          <Label htmlFor="airplane-mode">Accept Message : {acceptsMessageValue?"on":"off"}</Label>
+          <Label htmlFor="airplane-mode">
+            Accept Message : {acceptsMessageValue ? "on" : "off"}
+          </Label>
         </form>
       </div>
     </div>

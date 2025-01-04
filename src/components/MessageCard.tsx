@@ -1,11 +1,5 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import {
   AlertDialog,
@@ -21,6 +15,10 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { deleteMessageById } from "@/app/actions";
+import axios from "axios";
+import { ApiResponseType } from "@/types/ApiResponse";
+import { BASE_URL } from "@/helpers/constant";
+import { toast } from "@/hooks/use-toast";
 
 type MessageCardProps = {
   message: string;
@@ -33,13 +31,13 @@ function MessageCard({ message, msg_id, userId }: MessageCardProps) {
 
   return (
     <div>
-      <Card className="w-[300px] p-2">
+      <Card className="sm:w-[300px] p-2">
         <CardHeader>
           <CardTitle className="uppercase">{message}</CardTitle>
 
-          <CardDescription>
+          {/* <CardDescription>
             Deploy your new project in one-click.
-          </CardDescription>
+          </CardDescription> */}
         </CardHeader>
         <CardContent></CardContent>
         <AlertDialog>
@@ -58,7 +56,30 @@ function MessageCard({ message, msg_id, userId }: MessageCardProps) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction className="bg-red-600" onClick={handleSend}>
+              <AlertDialogAction
+                className="bg-red-600"
+                onClick={async () => {
+                  const resp = await axios.post<ApiResponseType>(
+                    BASE_URL +
+                      "/api/delete-message/" +
+                      msg_id +
+                      "?userId=" +
+                      userId
+                  );
+                  if (resp.data.success) {
+                    handleSend();
+                    toast({
+                      title: "Message Deleted",
+                      description: "Message Deleted Successfully",
+                    });
+                    return;
+                  }
+                  toast({
+                    title: "something went wrong",
+                    description: "Message not Deleted ",
+                  });
+                }}
+              >
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>

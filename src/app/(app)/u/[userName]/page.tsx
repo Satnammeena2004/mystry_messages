@@ -16,6 +16,7 @@ function Page() {
   const { object, submit, isLoading } = useObject({
     api: "/api/generate-messages",
     schema: GenerateMessageSchema,
+    
   });
   const { userName } = useParams<{ userName: string }>();
 
@@ -34,11 +35,11 @@ function Page() {
           </Label>
           <Textarea
           disabled={isSending}
-            maxLength={150}
+            maxLength={100}
             onChange={(e) => setMessage(e.target.value)}
             value={message}
             className="resize-none h-36 mt-2"
-            placeholder="hii...."
+            placeholder="max 100 characters..."
             id="message"
           />
           <Button

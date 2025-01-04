@@ -9,6 +9,7 @@ import ClipboardLink from "./ClipboardLink";
 import axios from "axios";
 import { ApiResponseType } from "@/types/ApiResponse";
 import { MessageType } from "@/models/User";
+import Server from "@/components/Server";
 
 export default async function Page() {
   const session = await auth();
@@ -39,11 +40,12 @@ export default async function Page() {
   return (
     <div className="px-4 sm:px-8  ">
       <h1 className="h2 p-4">User Dashboard</h1>
+      <Server/>
       <ClipboardLink />
       <IsAcceptingMessages />
       <RefreshMessageFeed />
 
-      <div className="flex p-4  gap-3 flex-wrap">
+      <div className="flex p-4  gap-3 flex-wrap ">
         {messages?.map(({ content, _id }, i) => {
           return (
             <MessageCard
