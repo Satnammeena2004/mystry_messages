@@ -1,13 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import google from "next-auth/providers/google";
+import github from "next-auth/providers/github";
 import dbConnect from "./dbConnection";
 import UserModel from "@/models/User";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
 // Your own logic for dealing with plaintext password strings; be careful!
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   providers: [
     Credentials({
       credentials: {
@@ -47,7 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
           // if (!user.isVerified) {
-    
+
           //   return null;
           // }
 
@@ -59,16 +59,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
     google,
+    github
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      if (account?.provider == "google") {
+    async signIn({ user, account }) {
+      console.log("user,account",user,account)
+      if (account?.provider == "google" || account?.provider == "github") {
         await dbConnect();
         const userFromDB = await UserModel.findOne({
           $or: [{ email: user.email }, { username: user.name }],
         });
+        console.log("userIndDB", userFromDB);
         if (userFromDB) {
           user._id = userFromDB._id;
+          user.isAcceptsMessage = userFromDB.isAcceptsMessage;
+          user.isVerified = userFromDB.isVerified;
+          user.username = userFromDB.username;
 
           return true;
         }
@@ -79,10 +85,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           verifyCode: "google",
           verifyCodeExpiry: new Date(),
           isVerified: true,
-          isAcceptsMessage: true,
+          isAcceptsMessage: false,
           messages: [],
         });
         user._id = newUser._id;
+        user.isAcceptsMessage = false;
+        user.isVerified = true;
+        user.username = newUser.username;
+        console.log("newUser", newUser);
         await newUser.save();
         return true;
       }
@@ -90,26 +100,35 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session, account }) {
+      // console.log("reached",account);
+      // console.log({ token, user, trigger, session });
       if (user) {
         token._id = user._id;
         token.isAcceptsMessage = user.isAcceptsMessage;
         token.isVerified = user.isVerified;
         token.username = user.username;
+        token.verifyCodeExpiry = user.verifyCodeExpiry;
       }
-      // console.log("token", token);
+      if (trigger === "update") {
+        token.isVerified = true;
+        return { ...token, ...session.data.user };
+      }
+
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token, trigger }) {
+      // console.log("reached session");
       session.user._id = token._id;
       session.user.isAcceptsMessage = token.isAcceptsMessage;
+      session.user.verifyCodeExpiry = token.verifyCodeExpiry;
       session.user.isVerified = token.isVerified;
       session.user.username = token.username;
+      if (trigger === "update") {
+        return { ...session, user: { ...token } };
+      }
 
       return session;
-    },
-    async redirect({ url, baseUrl }) {
-      return "/dashboard";
     },
   },
   session: {

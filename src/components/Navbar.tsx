@@ -1,31 +1,43 @@
-"use client";
 import React from "react";
-import { useSession, signIn } from "next-auth/react";
-import { Button } from "./ui/button";
-import { LucideMessageCircleQuestion } from "lucide-react";
-import { useRouter } from "next/navigation";
 import UserProfile, { UserProfileType } from "./UserProfile";
+import { auth } from "@/lib/auth";
+import Link from "next/link";
+import ModeToggle from "./ThemeButton";
+import Image from "next/image";
+import Logo from "../../public/logo.jpg";
 
-function Navbar() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  const user: UserProfileType = session?.user;
+async function Navbar() {
+  const session = await auth();
+  const status = session !== null ? "authenticated" : "unauthenticated";
+  const user: UserProfileType = { ...session?.user } as UserProfileType;
   return (
-    <div className="flex justify-between bg-white items-center px-4 py-2 w-full border font-Inter ">
+    <div
+      suppressHydrationWarning
+      className="flex justify-between dark:backdrop-blur-lg items-center px-4 py-2 w-full border dark:border-none font-Inter "
+    >
       <div className="flex items-center px-2">
-        <LucideMessageCircleQuestion className="w-8 h-8 md:w-6 md:h-6"/>
-        <h1 className="uppercase text-semibold hidden sm:block">Mystery Messages</h1>
+        <Link href={"/"} className="flex items-center">
+          {/* <LucideMessageCircleQuestion className="w-8 h-8 md:w-6 md:h-6" /> */}
+          <div className="items-center  flex gap-x-2">
+            <Image
+              className="rounded-md "
+              src={Logo}
+              alt="logo"
+              width={26}
+              height={26}
+            />
+            <h3 className="dark:text-sm font-semibold tracking-tighter font-['Giest'] capitalize hidden sm:block">
+              Mystry Messages
+            </h3>
+          </div>
+        </Link>
       </div>
-      {status === "authenticated" ? (
-        <div className="flex gap-x-3">
-          <UserProfile {...user} />
-        </div>
-      ) : (
-        <div className="flex mr-2 gap-x-2">
-          <Button onClick={() => signIn()}>Login</Button>
-          <Button onClick={() => router.push("/sign-up")}>Sign up</Button>
-        </div>
-      )}
+
+      {/* {status === "authenticated" ? ( */}
+      <div className="flex gap-x-3">
+        <UserProfile {...user} status={status} />
+        <ModeToggle />
+      </div>
     </div>
   );
 }
