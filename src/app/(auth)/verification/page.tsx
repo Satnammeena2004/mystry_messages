@@ -19,7 +19,7 @@ function Page() {
     return router.replace("/sign-in");
   }
   if (session.status === "loading") {
-    return <Loader2 className="animate-spin" />;
+    return <></>;
   }
   const isVerified = session.data?.user.isVerified;
   const email = session.data?.user.email as string;
@@ -40,7 +40,7 @@ function Page() {
         variant: "success",
         description: res.data.message,
       });
-router.replace("/verify/" + username)
+      router.replace("/verify/" + username);
     } catch (err) {
       console.log(err);
       if (err instanceof AxiosError) {
@@ -61,14 +61,17 @@ router.replace("/verify/" + username)
 
   return (
     <div className="p-2 h-full">
-      <div className="mt-28">
-        <h1 className="text-2xl w-fit mx-auto font-bold mb-4">Verify Your Account First</h1>
-        <div className="mx-auto  w-72 p-4 border rounded-md flex flex-col gap-4 shadow-md bg-stone-50">
-          <Input type="email" value={email} disabled placeholder="@gmail.com" />
+      <div className="mt-28 ">
+        <h1 className="text-2xl w-fit mx-auto font-bold mb-4">
+          Verify Your Account First
+        </h1>
+
+        <div className="mx-auto  w-72 p-4 border rounded-md flex flex-col gap-4 shadow-md bg-stone-50 dark:bg-black/90">
+          <Input type="email" value={email} disabled placeholder="@gmail.com" className="dark:text-white dark:bg-black" />
           <Button
             onClick={handleSendEmailForVerificationCode}
             disabled={isLoading}
-            className="flex"
+            className="flex dark:bg-black/90 dark:text-white dark:border-white dark:border"
           >
             {isLoading && <Loader2 className="animate-spin items-center" />}
             <span>Send Code</span>

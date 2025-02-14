@@ -23,6 +23,7 @@ export const POST = auth(async function POST(request) {
     const obj = streamObject({
       model: google("gemini-1.5-flash"),
       maxTokens: 200,
+      temperature:1,
       prompt: "generate three message like this that follow that schema",
       schema: GenerateMessageSchema,
     });
@@ -38,6 +39,11 @@ export const POST = auth(async function POST(request) {
       },
       {
         status: 500,
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       }
     );
   }
