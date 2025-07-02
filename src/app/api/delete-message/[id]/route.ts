@@ -2,7 +2,9 @@ import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
 
+
 export const POST = auth(async function POST(request, { params }) {
+
   const authss = auth(request);
   console.log(authss);
   try {

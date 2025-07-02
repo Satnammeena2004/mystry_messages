@@ -1,25 +1,29 @@
 "use server";
+import dbConnect from "@/lib/dbConnection";
+import UserModel from "@/models/User";
 
-import { BASE_URL } from "@/helpers/constant";
-import { unstable_update } from "@/lib/auth";
-import { ApiResponseType } from "@/types/ApiResponse";
-import axios from "axios";
+import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 
-export const deleteMessageById = async (id: string, userId: string) => {
-  // const resp = await axios.post<ApiResponseType>(
-  //   BASE_URL + "/api/delete-message/" + id + "?userId=" + userId
-  // );
-  // if (resp.data.success) {
-    revalidatePath("/api/get-messages");
+export const deleteMessageById = async () => {
+  revalidatePath("/api/get-messages");
   // }
+};
+
+export const getMessageAction = async (_id: string) => {
+  await dbConnect();
+  const userId = new mongoose.Types.ObjectId(_id);
+
+  const messages = await UserModel.aggregate([
+    { $match: { _id: userId } },
+    { $unwind: "$messages" },
+    { $sort: { "messages.createdAt": -1 } },
+    { $group: { _id: "$_id", messages: { $push: "$messages" } } },
+  ]);
+  return messages[0]?.messages;
 };
 
 export const refreshMessageThread = async () => {
   revalidatePath("/api/get-messages");
 };
 
-
-export async function updateSessionByManual(){
-  unstable_update({user:{username:"helllllllllll"}})
-}

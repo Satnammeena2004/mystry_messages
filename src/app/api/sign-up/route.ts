@@ -1,4 +1,4 @@
-import { sendVarificationEmail } from "@/helpers/varificationEmail";
+import sendEmail from "@/helpers/send_mail";
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
 import { SignUpSchema_ZOD } from "@/schemas/signupSchema";
@@ -81,29 +81,29 @@ export async function POST(request: Request) {
 
       await newUser.save();
     }
-    const emailRes = await sendVarificationEmail(username, verifyCode, email);
+    await sendEmail(username, verifyCode, email);
 
-    if (emailRes.success) {
-      return Response.json(
-        {
-          success: true,
-          message: "user registred succesfully please verify your email",
-        },
-        {
-          status: 201,
-        }
-      );
-    } else {
-      return Response.json(
-        {
-          success: false,
-          message: "falied in send verification email ",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
+    // if (emailRes.success) {
+    return Response.json(
+      {
+        success: true,
+        message: "user registred succesfully please verify your email",
+      },
+      {
+        status: 201,
+      }
+    );
+    // } else {
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       message: "falied in send verification email ",
+    //     },
+    //     {
+    //       status: 500,
+    //     }
+    //   );
+    // }
   } catch (error) {
     console.error("Error in registring user", error);
     return Response.json(

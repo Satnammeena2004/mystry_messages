@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CornerRightDown, Loader2 } from "lucide-react";
-import {  useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { experimental_useObject as useObject } from "ai/react";
 import { GenerateMessageSchema } from "@/schemas/generateMessageSchema";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -16,7 +16,6 @@ function Page() {
   const { object, submit, isLoading } = useObject({
     api: "/api/generate-messages",
     schema: GenerateMessageSchema,
-    
   });
   const { userName } = useParams<{ userName: string }>();
 
@@ -27,14 +26,12 @@ function Page() {
           Public Profile Link
         </h1>
         <div className="relative">
-  
-
           <Label htmlFor="message" className="text-xs">
             Write a anonymous message for @{decodeURIComponent(userName)}
             <CornerRightDown className="translate-y-2  inline" />
           </Label>
           <Textarea
-          disabled={isSending}
+            disabled={isSending}
             maxLength={100}
             onChange={(e) => setMessage(e.target.value)}
             value={message}
@@ -43,7 +40,7 @@ function Page() {
             id="message"
           />
           <Button
-          disabled={isSending}  
+            disabled={isSending}
             variant="outline"
             className="absolute bottom-2 w-4/5 bg-blue-500 hover:bg-blue-600 left-1/2 -translate-x-1/2"
             onClick={async () => {
@@ -56,38 +53,39 @@ function Page() {
                   username: decodeURIComponent(userName),
                   content: message,
                 });
-                
+
                 if (res.status === 200) {
                   toast({ title: "message sent", variant: "success" });
                   setMessage("");
                   return;
                 }
               } catch (err) {
-
-                if (err.status === 403) {
-                  toast({ title: "user is not accepting message now" });
+                console.log("error in send messages", err);
+                if (err instanceof AxiosError) {
+                  if (err.status === 403) {
+                    toast({ title: "user is not accepting message now" });
+                  }
                   return;
                 }
                 toast({
                   title: "something went wrong",
                   variant: "destructive",
                 });
-                console.log(err);
-              }finally{
+              
+              } finally {
                 setIsSending(false);
               }
             }}
-            >
-           {isSending?"Sending": "Send"}
+          >
+            {isSending ? "Sending" : "Send"}
           </Button>
-  
         </div>
         <div className="my-8">
-          {(!object && !isSending) && (
-            <Button onClick={() => submit("Generate")} className="mx-auto">
-              Generate Messages
-            </Button>
-          )}
+          {/* {!object && !isSending && ( */}
+          <Button onClick={() => submit("Generate")} className="mx-auto">
+            Generate Messages
+          </Button>
+          {/* )} */}
         </div>
         {isLoading && (
           <Button className="h-8 flex items-center justify-center mt-4">
@@ -101,7 +99,7 @@ function Page() {
             <button
               onClick={() => setMessage(m?.message as string)}
               key={index}
-              className="p-2 border rounded-md bg-slate-50"
+              className="p-2 border rounded-md bg-slate-50 dark:bg-black/90"
             >
               {m?.message}
             </button>

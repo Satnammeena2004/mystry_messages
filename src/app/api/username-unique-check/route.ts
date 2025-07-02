@@ -1,5 +1,4 @@
-// import dbConnect from "@/lib/dbConnection";
-// import UserModel from "@/models/User";
+
 import { z } from "zod";
 import dbConnect from "@/lib/dbConnection";
 import { UserNameSchema_ZOD } from "@/schemas/signupSchema";
@@ -31,7 +30,7 @@ export const GET = auth( async function GET(request) {
       );
     }
     const { username } = result.data;
-    console.log("username", username);
+    
     const existingUserwithUsername = await UserModel.findOne({
       username: username,
       isVerified: true,

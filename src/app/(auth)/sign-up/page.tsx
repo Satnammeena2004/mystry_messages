@@ -21,17 +21,19 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Mail } from "lucide-react";
+import { Github, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
 import { getSession } from "@/helpers/getSession";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import PasswordToggle from "@/components/PasswordToggle";
+import Logo from "@/../public/logo.jpg";
+import Image from "next/image";
 type FormStatus = "idle" | "pending" | "submited";
 
 function Page() {
   const router = useRouter();
-  const session = useSession();
-  console.log("session",session)
+
+ 
   const [isEyeOpen, setIsEyeOpen] = useState(false);
 
   const [username, setUsername] = useState("");
@@ -47,15 +49,16 @@ function Page() {
       password: "",
     },
   });
-   useEffect(() => {
-      async function getS() {
-        const session = await getSession();
-        if (session !==null) {
-          router.push("/");
-        }
+
+  useEffect(() => {
+    async function getS() {
+      const session = await getSession();
+      if (session !== null) {
+        router.push("/");
       }
-      getS();
-    }, [router]);
+    }
+    getS();
+  }, [router]);
 
   const onSubmit = async (data: z.infer<typeof SignUpSchema_ZOD>) => {
     try {
@@ -67,12 +70,12 @@ function Page() {
       });
       toast({
         title: "Verification code sent",
-        description:"Please verify your account",
+        description: "Please verify your account",
       });
       setFormStatus("submited");
       setTimeout(() => {
-        router.replace("/verify/" + username);
-      }, 200);
+        router.replace("/verify/"+username);
+      }, 100);
     } catch (error) {
       const apiError = error as AxiosError<ApiResponseType>;
       console.log(apiError);
@@ -112,8 +115,15 @@ function Page() {
   }, [username]);
 
   return (
-    <div className="bg-slate-300 min-h-screen flex justify-center ">
-      <div className="max-w-[25rem] w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-4 mt-4 h-fit">
+    <div className="bg-slate-300 min-h-screen flex justify-center bg-grid-pattern14 dark:bg-grid-pattern2 bg-cover bg-center">
+      <div className="max-w-[25rem] w-4/5 bg-slate-50 dark:bg-black/90  rounded-xl border shadow-md px-8 py-4 mt-4 h-fit">
+        <Image
+          src={Logo}
+          width={100}
+          className="mb-2  mx-auto rounded-lg"
+          height={100}
+          alt="logo"
+        />
         <div className="mb-4">
           <h1 className="text-3xl font-semibold text-center">
             Join Mystry Message
@@ -175,20 +185,20 @@ function Page() {
               name="password"
               render={({ field }) => (
                 <FormItem className="relative">
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type={`${isEyeOpen ? "text" : "password"}`}
-                    placeholder="password"
-                    {...field}
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type={`${isEyeOpen ? "text" : "password"}`}
+                      placeholder="password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <PasswordToggle
+                    isEyeOpen={isEyeOpen}
+                    setIsEyeOpen={setIsEyeOpen}
                   />
-                </FormControl>
-                <PasswordToggle
-                  isEyeOpen={isEyeOpen}
-                  setIsEyeOpen={setIsEyeOpen}
-                />
-                <FormMessage />
-              </FormItem>
+                  <FormMessage />
+                </FormItem>
               )}
             />
 
@@ -216,12 +226,18 @@ function Page() {
             </Link>
           </p>
         </div>
-        <div className="flex my-4">
+        <div className="flex my-4 gap-x-8">
           <Button
             onClick={() => signIn("google", { redirectTo: "/dashboard" })}
-            className="bg-green-300 m-auto md:w-2/3 w-fit  text-black hover:bg-green-400"
+            className="text-white m-auto md:w-2/3 w-fit dark:hover:bg-green-400  dark:text-black hover:bg-green-400"
           >
-            <Mail /> Login with Google
+            <Mail />
+          </Button>
+          <Button
+            onClick={() => signIn("github", { redirectTo: "/dashboard" })}
+            className="dark:bg-white dark:text-black dark:hover:bg-green-400 m-auto md:w-2/3 w-fit  text-white hover:bg-green-400"
+          >
+            <Github />
           </Button>
         </div>
       </div>

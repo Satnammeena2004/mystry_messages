@@ -24,9 +24,8 @@ export const GET = auth(async (request) => {
     const { searchParams } = new URL(request.nextUrl);
 
     const _id = searchParams.get("userId");
-    console.log("id==================================", _id);
     await dbConnect();
-    const userId = new mongoose.Types.ObjectId(_id);
+    const userId = new mongoose.Types.ObjectId(_id as string);
 
     const messages = await UserModel.aggregate([
       { $match: { _id: userId } },
@@ -34,15 +33,7 @@ export const GET = auth(async (request) => {
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-    // if (!messages || messages.length === 0) {
-    //   return Response.json(
-    //     {
-    //       success: false,
-    //       messages: "User not found",
-    //     },
-    //     { status: 404 }
-    //   );
-    // }
+ 
 
     return Response.json(
       {

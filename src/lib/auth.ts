@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 // Your own logic for dealing with plaintext password strings; be careful!
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
+  trustHost:true,
   providers: [
     Credentials({
       credentials: {
@@ -18,7 +19,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
 
       authorize: async (credentials: any) => {
         try {
-          console.log("credentoalt", credentials);
+     
           await dbConnect();
           const user = await UserModel.findOne({
             $or: [
@@ -26,10 +27,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
               { username: credentials.username },
             ],
           });
-          console.log(
-            "---------------------------------------------------------",
-            user
-          );
+      
           if (!user) {
             return null;
             // throw new Error("You are not verified so do it first");
@@ -41,7 +39,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             credentials.password,
             user.password
           );
-          console.log("isCorrectPassword", isCorrectPassword);
+      
 
           if (!isCorrectPassword) {
             return null;

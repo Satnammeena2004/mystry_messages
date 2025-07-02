@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         username,
         content,
       });
-    console.log("zodValidatrion", zodValidation.error?.errors);
+ 
     if (!zodValidation.success) {
       return Response.json(
         {

@@ -1,5 +1,4 @@
 "use client";
-import { formatTime } from "@/helpers/heplper";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,6 +20,7 @@ import { ApiResponseType } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 import { useParams, useRouter } from "next/navigation";
 
@@ -28,7 +28,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 function Verify() {
-  const [count] = useState(60);
+  // const [count] = useState(60);
   const router = useRouter();
   const session = useSession();
   const { username } = useParams<{ username: string }>();
@@ -69,10 +69,10 @@ function Verify() {
           },
         },
       });
-
-      setTimeout(() => {
-        router.replace("/dashboard");
-      }, 200);
+      if(!session && !session?.data?.user){
+       return router.replace("/sign-in");
+      }
+      router.replace("/dashboard");
     } catch (error) {
       console.log("APE Error in code verification");
       const apiError = error as AxiosError<ApiResponseType>;
@@ -91,13 +91,13 @@ function Verify() {
     }
   };
 
-  if (session.status === "unauthenticated") {
-    router.push("/unauthenticated");
-    return;
-  }
+  // if (session.status === "unauthenticated") {
+  //   router.push("/unauthenticated");
+  //   return;
+  // }
   return (
-    <div className="bg-slate-300 min-h-screen flex justify-center items-center">
-      <div className="max-w-[25rem] flex justify-center items-center w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-8 relative">
+    <div className="bg-slate-300 min-h-screen flex justify-center items-center dark:bg-grid-pattern2 bg-cover bg-center">
+      <div className="max-w-[25rem] flex justify-center items-center w-4/5 bg-slate-50 rounded-lg border shadow-md px-8 py-8 relative dark:bg-black/90">
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
@@ -126,49 +126,23 @@ function Verify() {
                 </FormItem>
               )}
             />
-            {count <= 0 ? (
-              <>
-                <Button
-                  className="my-3 mx-auto"
-                  onClick={async () => {
-                    try {
-                      await axios.get("/api/send-verification-email");
-                      toast({
-                        title: "Code resent",
-                        description: "Please check your email",
-                        variant: "success",
-                      });
-                    } catch (error) {
-                      console.log("Error in resending code", error);
-                      toast({
-                        title: "Error in resending code",
-                        description: "Please try again",
-                        variant: "destructive",
-                      });
-                    }
-                  }}
-                >
-                  Resend Code
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  disabled={disabled}
-                  className="my-3 mx-auto"
-                  type="submit"
-                >
-                  {disabled ? "Sending..." : "Send "}
-                </Button>
-                <p className="absolute bottom-0 right-2 text-sm">
-                  Code expires in
-                  {}
-                  <span className="text-blue-600 ml-3">
-                    {formatTime(count)}s
-                  </span>
-                </p>
-              </>
-            )}
+            <Button disabled={disabled} className="my-3 mx-auto" type="submit">
+              {disabled ? "Sending..." : "Send "}
+            </Button>
+            <br />
+            <Link
+              className="text-black dark:text-gray-200 text-sm underline"
+              href={"/dashboard"}
+            >
+              Explore without verify
+            </Link>
+            <br />
+            <Link
+              className="text-black dark:text-gray-200 text-sm underline"
+              href={"/verification"}
+            >
+              Do not have a code?
+            </Link>
           </form>
         </Form>
       </div>
