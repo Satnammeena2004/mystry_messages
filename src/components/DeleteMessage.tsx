@@ -38,15 +38,15 @@ const DeleteMessage = () => {
         <AlertDialogTrigger asChild>
           <button ref={refBtn}></button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="max-w-[300px] min-w-[250px] z-20 bg-black text-white dark:bg-black dark:border dark:border-white rounded-md p-4 fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 before:content-[''] before:-z-10 before:absolute before:inset-0 before:w-[200vw] before:h-[200vh] before:bg-black/90 before:opacity-50 before:-translate-x-1/3 before:-translate-y-1/3">
+        <AlertDialogContent className="max-w-[300px] min-w-[250px] z-20 bg-black text-white dark:bg-black dark:border dark:border-white rounded-md p-8 fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 before:content-[''] before:-z-10 before:absolute before:inset-0 before:w-[200vw] before:h-[200vh] before:bg-black/90 before:opacity-50 before:-translate-x-1/3 before:-translate-y-1/3">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-gray-400 my-3">
               This action cannot be undone. This will permanently delete your
               account and remove your data from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="mt-3">
             <AlertDialogCancel ref={refCancel} className="p-2 px-3">
               Cancel
             </AlertDialogCancel>

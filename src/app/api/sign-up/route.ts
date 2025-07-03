@@ -1,4 +1,5 @@
 import sendEmail from "@/helpers/send_mail";
+import { signIn } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnection";
 import UserModel from "@/models/User";
 import { SignUpSchema_ZOD } from "@/schemas/signupSchema";
@@ -81,9 +82,10 @@ export async function POST(request: Request) {
 
       await newUser.save();
     }
-    await sendEmail(username, verifyCode, email);
+    // await sendEmail(username, verifyCode, email);
 
-    // if (emailRes.success) {
+
+
     return Response.json(
       {
         success: true,

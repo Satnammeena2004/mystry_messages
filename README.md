@@ -36,7 +36,6 @@ Create a `.env` file in the root folder of your project. Update it following the
 Here's an example:
 ```
 MONGODB_URI=""
-RESEND_API_KEY=""
 AUTH_GOOGLE_ID=""
 AUTH_GOOGLE_SECRET=""
 AUTH_GITHUB_ID=""

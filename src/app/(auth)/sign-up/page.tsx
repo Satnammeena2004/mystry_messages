@@ -65,17 +65,14 @@ function Page() {
       setFormStatus("pending");
       const response = await axios.post("/api/sign-up", data);
       toast({
-        title: "signup successfully",
+        title: "Signup successfully",
         description: response.data?.message,
       });
-      toast({
-        title: "Verification code sent",
-        description: "Please verify your account",
-      });
+     
       setFormStatus("submited");
       setTimeout(() => {
-        router.replace("/verify/"+username);
-      }, 100);
+        router.replace("/sign-in");
+      }, 0);
     } catch (error) {
       const apiError = error as AxiosError<ApiResponseType>;
       console.log(apiError);

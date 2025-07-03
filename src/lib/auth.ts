@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   trustHost:true,
+  secret:process.env.AUTH_SECRET,
   providers: [
     Credentials({
       credentials: {
