@@ -14,7 +14,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { AlertDialogFooter, AlertDialogHeader } from "./ui/alert-dialog";
 import axios from "axios";
 import { ApiResponseType } from "@/types/ApiResponse";
-import { BASE_URL } from "@/helpers/constant";
 import { deleteMessageById } from "@/app/actions";
 import { toast } from "@/hooks/use-toast";
 
@@ -54,7 +53,7 @@ const DeleteMessage = () => {
               className="bg-red-600 p-2 px-3 rounded-md"
               onClick={async () => {
                 const resp = await axios.post<ApiResponseType>(
-                  BASE_URL +
+                  process.env.NEXT_PUBLIC_BASE_URL +
                     "/api/delete-message/" +
                     msg_id +
                     "?userId=" +

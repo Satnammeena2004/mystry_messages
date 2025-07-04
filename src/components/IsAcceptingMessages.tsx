@@ -9,7 +9,6 @@ import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "./ui/label";
-import { BASE_URL } from "@/helpers/constant";
 import { useSession } from "next-auth/react";
 
 function IsAcceptingMessages() {
@@ -20,7 +19,7 @@ function IsAcceptingMessages() {
 
   const initialCheckAcceptsMessage = useCallback(
     async function () {
-      const { data } = await axios.get(BASE_URL + "/api/accept-messages");
+      const { data } = await axios.get(process.env.NEXT_PUBLIC_BASE_URL + "/api/accept-messages");
       console.log("rendering initialAccept message");
       setValue("acceptsMessage", data.isAcceptingMessages);
       toast({
@@ -38,7 +37,7 @@ function IsAcceptingMessages() {
     setValue("acceptsMessage", !acceptsMessageValue);
   }
   async function onSubmit(data: z.infer<typeof acceptsMessageSchema>) {
-    await axios.post(BASE_URL + "/api/accept-messages", data).then(() => {
+    await axios.post(process.env.NEXT_PUBLIC_BASE_URL + "/api/accept-messages", data).then(() => {
       toast({
         title: "successfully changed saved",
         description: "Your accepting message changed",

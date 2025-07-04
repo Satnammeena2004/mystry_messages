@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { BASE_URL } from "@/helpers/constant";
 import { CornerRightDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
@@ -68,7 +67,7 @@ function ClipboardLink() {
           type="text"
           className="p-2 bg-transparent  rounded-md md:w-96 w-full text-sm md:text-base   dark:border-black "
           disabled
-          value={"https:localhost:3000/u/" + (username ? username : "")}
+          value={process.env.NEXT_PUBLIC_BASE_URL+"/u/" + (username ? username : "")}
         />
         <Button
           style={{
@@ -77,7 +76,7 @@ function ClipboardLink() {
           }}
           className="dark:bg-black/90 dark:text-white text-black dark:border-white"
           onClick={() => {
-            handleCopy(BASE_URL + "/u/" + username);
+            handleCopy(process.env.NEXT_PUBLIC_BASE_URL + "/u/" + username);
             setIsTextCopied(true)
             setTimeout(()=>setIsTextCopied(false),2000)
           }}
