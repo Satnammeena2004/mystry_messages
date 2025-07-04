@@ -19,7 +19,7 @@ function IsAcceptingMessages() {
 
   const initialCheckAcceptsMessage = useCallback(
     async function () {
-      const { data } = await axios.get(process.env.NEXT_PUBLIC_BASE_URL + "/api/accept-messages");
+      const { data } = await axios.get(location.origin + "/api/accept-messages");
       console.log("rendering initialAccept message");
       setValue("acceptsMessage", data.isAcceptingMessages);
       toast({
@@ -37,7 +37,7 @@ function IsAcceptingMessages() {
     setValue("acceptsMessage", !acceptsMessageValue);
   }
   async function onSubmit(data: z.infer<typeof acceptsMessageSchema>) {
-    await axios.post(process.env.NEXT_PUBLIC_BASE_URL + "/api/accept-messages", data).then(() => {
+    await axios.post(location.origin + "/api/accept-messages", data).then(() => {
       toast({
         title: "successfully changed saved",
         description: "Your accepting message changed",

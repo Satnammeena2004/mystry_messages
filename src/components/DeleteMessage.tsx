@@ -53,7 +53,7 @@ const DeleteMessage = () => {
               className="bg-red-600 p-2 px-3 rounded-md"
               onClick={async () => {
                 const resp = await axios.post<ApiResponseType>(
-                  process.env.NEXT_PUBLIC_BASE_URL +
+                  location.origin +
                     "/api/delete-message/" +
                     msg_id +
                     "?userId=" +

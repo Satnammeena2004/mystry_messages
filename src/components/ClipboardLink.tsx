@@ -67,7 +67,7 @@ function ClipboardLink() {
           type="text"
           className="p-2 bg-transparent  rounded-md md:w-96 w-full text-sm md:text-base   dark:border-black "
           disabled
-          value={process.env.NEXT_PUBLIC_BASE_URL+"/u/" + (username ? username : "")}
+          value={location.origin+"/u/" + (username ? username : "")}
         />
         <Button
           style={{
@@ -76,7 +76,7 @@ function ClipboardLink() {
           }}
           className="dark:bg-black/90 dark:text-white text-black dark:border-white"
           onClick={() => {
-            handleCopy(process.env.NEXT_PUBLIC_BASE_URL + "/u/" + username);
+            handleCopy(location.origin + "/u/" + username);
             setIsTextCopied(true)
             setTimeout(()=>setIsTextCopied(false),2000)
           }}
