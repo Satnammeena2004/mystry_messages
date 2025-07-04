@@ -38,7 +38,7 @@ const VerifyYouself = () => {
                 isExpanded ? "opacity-100" : "opacity-0"
               } transition-opacity duration-300`}
             >
-              <p className="text-sm text-yellow-700">
+              <p className="text-sm text-zinc-900">
                 Your account is not verified yet. Please complete the
                 verification process.
               </p>
@@ -51,7 +51,7 @@ const VerifyYouself = () => {
             </div>
           </div>
           <Button
-            className="absolute w-2 h-full  top-0 right-0 bg-yellow-100"
+            className="absolute w-2 h-full  top-0 right-0 bg-yellow-100 hover:bg-yellow-300"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? (

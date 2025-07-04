@@ -57,7 +57,7 @@ const transporter = createTransport({
 async function sendEmail(username: string, verifyCode: string, email: string) {
     const info = await transporter.sendMail({
         from: process.env.GOOGLE_EMAIL,
-        to: "lovona5579@exitbit.com",
+        to: email,
         subject: "Mystry Messages , Verification Code",
         html: customHtml(username, verifyCode, email)
     });
