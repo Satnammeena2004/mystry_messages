@@ -1,8 +1,8 @@
-# Mystry Messages
+# Anonify
 
 ## 📖 Introduction
 
-Mystry Messages is an anonyms messaging platform that allow uses to receive or send message without revealing their identity.
+Anonify is an anonyms messaging platform that allow uses to receive or send message without revealing their identity.
 
 ## 🛠️ Technologies Used
 

@@ -19,11 +19,11 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   openGraph: {
-    title: "Mystry Messages",
+    title: process.env.APP_NAME,
     description:
       "Hello , It a sass web app that you can send anonymous messages to anyone",
     url: process.env.BASE_URL,
-    siteName: "Mystery Messages",
+    siteName: process.env.APP_NAME,
     type: "website",
     images: [
       {
@@ -31,27 +31,27 @@ export const metadata: Metadata = {
         secureUrl: process.env.BASE_URL + "/homepage.png",
         width: 1200,
         height: 630,
-        alt: "Preview image for mystry messages",
+        alt: "Preview image for " + process.env.APP_NAME,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@mystrymessages",
-    title: "Mystery Messages",
+    title: process.env.APP_NAME,
     description:
       "Hello , It a sass web app that you can send anonymous messages to anyone",
     creator: "@satnam",
     images: {
       url: process.env.BASE_URL + "/logo.jpg",
-      alt: "Preview image for mystry Messages",
+      alt: "Preview image for " + process.env.APP_NAME,
     },
   },
 
-  title: "Mystery Messages | send anonymous message to anyone",
+  title: "Anonify",
   description: "You can send anonymous messages to anyone",
   authors: [{ name: "Satnam Meena", url: process.env.BASE_URL }],
-  applicationName: "Mystry Messages",
+  applicationName: process.env.APP_NAME,
   keywords: [
     "mystry",
     "messages",

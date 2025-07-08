@@ -27,7 +27,7 @@ async function Navbar() {
               height={26}
             />
             <h3 className="dark:text-sm font-semibold tracking-tighter font-['Giest'] capitalize hidden sm:block">
-              Mystry Messages
+             Anonyfy
             </h3>
           </div>
         </Link>

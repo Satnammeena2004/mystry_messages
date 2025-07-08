@@ -33,7 +33,7 @@ export const GET = auth( async function GET(request) {
     
     const existingUserwithUsername = await UserModel.findOne({
       username: username,
-      isVerified: true,
+
     });
     if (existingUserwithUsername) {
       return Response.json(

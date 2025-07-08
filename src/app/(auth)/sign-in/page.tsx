@@ -26,8 +26,8 @@ import { useEffect, useState } from "react";
 import { getSession } from "@/helpers/getSession";
 import { useRouter } from "next/navigation";
 import PasswordToggle from "@/components/PasswordToggle";
-import Image from "next/image";
-import Logo from "@/../public/logo.jpg";
+
+import Intro from "@/app/components/Intro";
 
 function Page() {
   const router = useRouter();
@@ -113,22 +113,7 @@ function Page() {
   return (
     <div className="bg-slate-300  min-h-screen flex justify-center bg-grid-pattern14 dark:bg-grid-pattern2 bg-cover bg-center">
       <div className="max-w-[25rem] w-4/5 h-5/6 mt-4 bg-slate-50 dark:bg-black/90    rounded-xl  border  px-8 py-8">
-        <Image
-          src={Logo}
-          width={100}
-          className="mb-2 -mt-4 mx-auto rounded-lg"
-          height={100}
-          alt="logo"
-        />
-        <div className="mb-4 dark:text-white">
-          <h1 className="text-3xl font-semibold text-center ">
-            Join Mystry Message
-          </h1>
-          <p className="text-sm text-center dark:text-white">
-            Sign up to start anonymous journy
-          </p>
-        </div>
-
+         <Intro/>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

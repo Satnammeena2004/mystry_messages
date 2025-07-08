@@ -17,7 +17,7 @@ function customHtml(username: string, verificationCode: string, email: string) {
             <table align="center" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden;">
               <tr>
                 <td style="background-color:#222; color:#ffffff; padding:20px; text-align:center; font-size:24px; font-weight:bold;">
-                  Mystery Messages
+                  Anonify
                 </td>
               </tr>
               <tr>
@@ -58,7 +58,7 @@ async function sendEmail(username: string, verifyCode: string, email: string) {
     const info = await transporter.sendMail({
         from: process.env.GOOGLE_EMAIL,
         to: email,
-        subject: "Mystry Messages , Verification Code",
+        subject: "Anonyfy , Verification Code",
         html: customHtml(username, verifyCode, email)
     });
 

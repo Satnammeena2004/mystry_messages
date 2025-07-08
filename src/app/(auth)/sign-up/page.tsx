@@ -26,8 +26,7 @@ import Link from "next/link";
 import { getSession } from "@/helpers/getSession";
 import { signIn } from "next-auth/react";
 import PasswordToggle from "@/components/PasswordToggle";
-import Logo from "@/../public/logo.jpg";
-import Image from "next/image";
+import Intro from "@/app/components/Intro";
 type FormStatus = "idle" | "pending" | "submited";
 
 function Page() {
@@ -113,22 +112,8 @@ function Page() {
 
   return (
     <div className="bg-slate-300 min-h-screen flex justify-center bg-grid-pattern14 dark:bg-grid-pattern2 bg-cover bg-center">
-      <div className="max-w-[25rem] w-4/5 bg-slate-50 dark:bg-black/90  rounded-xl border shadow-md px-8 py-4 mt-4 h-fit">
-        <Image
-          src={Logo}
-          width={100}
-          className="mb-2  mx-auto rounded-lg"
-          height={100}
-          alt="logo"
-        />
-        <div className="mb-4">
-          <h1 className="text-3xl font-semibold text-center">
-            Join Mystry Message
-          </h1>
-          <p className="text-sm text-center ">
-            Sign up to start anonymous journy
-          </p>
-        </div>
+      <div className="max-w-[25rem] w-4/5 bg-slate-50 dark:bg-black/90  rounded-xl border shadow-md px-8 pt-4 mt-4 h-fit">
+       <Intro/>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField

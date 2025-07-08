@@ -71,7 +71,6 @@ function Page() {
                   title: "something went wrong",
                   variant: "destructive",
                 });
-              
               } finally {
                 setIsSending(false);
               }
