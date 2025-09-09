@@ -111,8 +111,8 @@ function Page() {
   };
 
   return (
-    <div className="bg-slate-300  min-h-screen flex justify-center bg-grid-pattern14 dark:bg-grid-pattern2 bg-cover bg-center">
-      <div className="max-w-[25rem] w-4/5 h-5/6 mt-4 bg-slate-50 dark:bg-black/90    rounded-xl  border  px-8 py-8">
+    <div className="bg-slate-300  min-h-screen flex justify-center bg-grid-pattern14 dark:bg-grid-pattern2 bg-cover bg-center items-center">
+      <div className="max-w-[25rem] -translate-y-[10%] w-4/5 h-5/6 mt-4 bg-slate-50 dark:bg-black/90    rounded-xl  border  px-8 py-8">
          <Intro/>
         <Form {...form}>
           <form

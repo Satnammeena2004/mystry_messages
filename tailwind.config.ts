@@ -72,7 +72,7 @@ export default {
     plugin(function ({ addComponents }) {
       addComponents({
         ".h1": {
-          "@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[2.25rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]":
+          "@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[2.5rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]":
             {},
         },
         ".h2": {

@@ -13,7 +13,7 @@ async function Navbar() {
   return (
     <div
       suppressHydrationWarning
-      className="flex justify-between dark:backdrop-blur-lg items-center px-4 py-2 w-full border dark:border-none font-Inter "
+      className="flex justify-between dark:backdrop-blur-lg items-center px-4 py-2 w-full  dark:border-none font-Inter "
     >
       <div className="flex items-center px-2">
         <Link href={"/"} className="flex items-center">
