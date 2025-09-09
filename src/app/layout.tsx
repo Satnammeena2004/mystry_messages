@@ -83,7 +83,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            <div className="relative min-h-screen bg-grid-pattern14 dark:bg-grid-pattern2  bg-cover bg-center ">
+            <div className="relative min-h-screen bg-grid-pattern14 dark:bg-grid-pattern2  bg-cover bg-center max-w-screen-xl mx-auto">
               {children}
             </div>
             <Toaster />

@@ -23,7 +23,7 @@ export default async function Page() {
       <IsAcceptingMessages />
       <RefreshMessageFeed />
       <DeleteMessage />
-      <div className=" p-4 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5  gap-3 md:gap-x-10 ">
+      <div className=" p-4 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-3 md:gap-x-10 ">
         {(messages?.length === 0 || messages?.length === undefined) && (
           <div className="col-span-full">
             <p className="text-center text-gray-500">No messages yet</p>
